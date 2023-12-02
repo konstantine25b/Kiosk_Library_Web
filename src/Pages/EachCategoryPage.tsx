@@ -53,8 +53,8 @@ export default function EachCategoryPage() {
       <CategoryTitle>{state.category.name} Books</CategoryTitle>
       <BooksList>
         {visibleBooks.map((book: Book) => (
-          <>
-            {selectedBook && showAuthenticationModal && (
+          <div key={book.id}>  
+           {selectedBook && showAuthenticationModal && (
               <AuthenticationModal
                 onClose={handleCloseModal}
                 onLogin={handleLogin}
@@ -62,19 +62,21 @@ export default function EachCategoryPage() {
                   title: selectedBook.title,
                   author: selectedBook.author,
                   year: selectedBook.year,
-                  id: selectedBook.id,
+                  id: selectedBook.id
                 }}
               />
             )}
-            <BookItem key={book.id}>
-              <BookTitle>{book.title}</BookTitle>
-              <BookAuthor>{book.author}</BookAuthor>
-              <BookYear>{book.year}</BookYear>
-              <SelectButton onClick={() => handleBookSelection(book)}>
-                Select This Book
-              </SelectButton>
-            </BookItem>
-          </>
+              <BookItem key={book.id}>
+            <BookTitle>{book.title}</BookTitle>
+            <BookAuthor>{book.author}</BookAuthor>
+            <BookYear>{book.year}</BookYear>
+            <SelectButton onClick={() => handleBookSelection(book)}>
+              Select This Book
+            </SelectButton>
+          </BookItem>
+          
+          </div>
+        
         ))}
       </BooksList>
 
