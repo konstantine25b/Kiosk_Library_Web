@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
-import styled from '@emotion/styled';
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: string;
   name: string;
 }
 
-const BOOK_CATEGORIES_API = 'https://656ac10ddac3630cf72744fc.mockapi.io/Categories/Categories';
+const BOOK_CATEGORIES_API =
+  "https://656ac10ddac3630cf72744fc.mockapi.io/Categories/Categories";
 
 const fetchCategories = async () => {
   const response = await fetch(BOOK_CATEGORIES_API);
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error("Network response was not ok");
   }
 
   const data = await response.json();
   return data;
 };
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 7;
 
 export default function BookCategories() {
-  const { data: categories, isLoading, isError } = useQuery<Category[]>(
-    'bookCategories',
-    fetchCategories
-  );
+  const navigate = useNavigate();
+  const {
+    data: categories,
+    isLoading,
+    isError,
+  } = useQuery<Category[]>("bookCategories", fetchCategories);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -70,22 +74,30 @@ export default function BookCategories() {
       </PaginationContainer>
       <CategoriesList>
         {visibleCategories?.map((category) => (
-          <CategoryItem key={category.id}>{category.name}</CategoryItem>
+          <CategoryItem
+            onClick={() =>
+              navigate(`/categories/books`, {
+                state: {
+                  category: category,
+                },
+              })
+            }
+            key={category.id}
+          >
+            {category.name}
+          </CategoryItem>
         ))}
       </CategoriesList>
-
-      
     </CategoriesContainer>
   );
 }
 
 const CategoriesContainer = styled.div`
   padding: 20px;
- 
+
   border-radius: 10px;
   margin-left: 5%;
   width: 90%;
-
 `;
 
 const CategoriesList = styled.ul`
