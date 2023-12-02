@@ -57,7 +57,7 @@ export default function Navbar() {
         Home
       </NavItem>
 
-      <NavItem onClick={goToCategories}>Categories</NavItem>
+      <NavItem onClick={goToCategories}>Borrow Books</NavItem>
 
       <NavItem onClick={goToReturnBooks}>Return Books</NavItem>
     </NavbarContainer>
