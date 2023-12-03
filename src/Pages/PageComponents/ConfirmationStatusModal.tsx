@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "@emotion/styled";
-import { UserContext } from "../App";
+import { UserContext } from "../../App";
 
 interface BorrowConfirmationModalProps {
   onClose: () => void;
