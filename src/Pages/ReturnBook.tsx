@@ -1,12 +1,35 @@
 import React, { useState, FormEvent } from "react";
 import styled from "@emotion/styled";
 import ReturnLoginModal from "./PageComponents/ReturnLoginModal";
+import ReturnConfirmationModal from "./PageComponents/ReturnConfirmationModal";
 
+interface Book {
+  id: string;
+  title: string;
+  author: string;
+  year: number;
+}
+
+interface Category {
+  name: string;
+  id: string;
+  books: Book[];
+}
 interface ReturnBookProps {}
 
 const ReturnBook: React.FC<ReturnBookProps> = () => {
   const [bookId, setBookId] = useState<string>("");
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+
+  const [showReturnConfirmationModal, setShowReturnConfirmationModal] =
+    useState(false);
+  const [returnConfirmationModalData, setReturnConfirmationModalData] =
+    useState({
+      success: false,
+      userName: "",
+      bookData: null,
+      errorMessage: "",
+    });
 
   const handleBookIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookId(e.target.value);
@@ -26,10 +49,76 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
     setShowLoginModal(false);
   };
 
-  const handleLogin = (username: string, password: string) => {
+  const BOOK_CATEGORIES_API =
+    "https://656ac10ddac3630cf72744fc.mockapi.io/Categories/Categories";
+
+  const fetchCategories = async () => {
+    const response = await fetch(BOOK_CATEGORIES_API);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
+  };
+  const handleCloseReturnConfirmationModal = () => {
+    // Close the confirmation modal
+    setShowReturnConfirmationModal(false);
+  };
+
+  const handleLogin = async (username: string, password: string) => {
     console.log("Login with:", username, password);
     console.log(bookId);
     setShowLoginModal(false);
+
+    try {
+      // Fetch the book categories
+      const categories = await fetchCategories();
+
+      // Check if the book ID is valid
+      const matchingBook = categories.reduce(
+        (foundBook: Book, category: Category) => {
+          if (!foundBook) {
+            const book = category.books.find((book) => book.id === bookId);
+            return book ? { category, book } : null;
+          }
+          return foundBook;
+        },
+        null
+      );
+
+      if (matchingBook) {
+        // Book ID is valid, proceed with the login logic
+        console.log("Valid book ID. Proceeding with login...");
+        console.log(matchingBook);
+
+        setReturnConfirmationModalData({
+          success: true,
+          userName: username, // Set the username
+          bookData: matchingBook.book, // Set book data
+          errorMessage: "", // Reset error message
+        });
+      } else {
+        // Book ID is not valid, show an error message
+        console.error("Invalid book ID. Please enter a valid book ID.");
+        setReturnConfirmationModalData({
+          success: false,
+          userName: "", // Reset username
+          bookData: null, // Reset book data
+          errorMessage: "Invalid book ID. Please enter a valid book ID.", // Set error message
+        });
+      }
+    } catch (error) {
+      // Handle fetch error
+      console.error("Error fetching book categories:", error);
+      setReturnConfirmationModalData({
+        success: false,
+        userName: "", // Reset username
+        bookData: null, // Reset book data
+        errorMessage: "Error fetching book categories", // Set error message
+      });
+    }
+    setShowReturnConfirmationModal(true);
   };
 
   return (
@@ -49,6 +138,15 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
         <ReturnLoginModal
           onClose={handleCloseLoginModal}
           onLogin={(username, password) => handleLogin(username, password)}
+        />
+      )}
+      {showReturnConfirmationModal && (
+        <ReturnConfirmationModal
+          onClose={handleCloseReturnConfirmationModal}
+          success={returnConfirmationModalData.success}
+          userName={returnConfirmationModalData.userName}
+          bookData={returnConfirmationModalData.bookData || undefined}
+          errorMessage={returnConfirmationModalData.errorMessage}
         />
       )}
     </Container>
