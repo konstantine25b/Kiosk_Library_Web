@@ -54,7 +54,7 @@
       {
         "name": "Mystery",
         "id": "3",
-        "books":[[
+        "books":[
             { "id": "301", "title": "The Girl with the Dragon Tattoo", "author": "Stieg Larsson", "year": 2005 },
             { "id": "302", "title": "Gone Girl", "author": "Gillian Flynn", "year": 2012 },
             { "id": "303", "title": "The Da Vinci Code", "author": "Dan Brown", "year": 2003 },
@@ -75,7 +75,7 @@
             { "id": "318", "title": "The Postman Always Rings Twice", "author": "James M. Cain", "year": 1934 },
             { "id": "319", "title": "The Thin Man", "author": "Dashiell Hammett", "year": 1934 },
             { "id": "320", "title": "The Shadow of the Wind", "author": "Carlos Ruiz Zafón", "year": 2001 }
-          ]]
+          ]
       },
       {
         "name": "Non-fiction",
