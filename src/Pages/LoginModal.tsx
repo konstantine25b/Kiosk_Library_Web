@@ -3,34 +3,49 @@ import styled from "@emotion/styled";
 
 interface AuthenticationModalProps {
   onClose: () => void;
-  onLogin: () => void;
+  onLogin: (username: string, password: string) => void;
   selectedBookInfo: {
     title: string;
     author: string;
     year: number;
-    id: String;
+    id: string;
   } | null;
 }
 
 const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
   onClose,
   onLogin,
-  selectedBookInfo
+  selectedBookInfo,
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameWarning, setUsernameWarning] = useState<string | null>(null);
+  const [passwordWarning, setPasswordWarning] = useState<string | null>(null);
 
   const handleLogin = () => {
-    // Implement your authentication logic here
-    // For simplicity, let's just log the credentials for now
-    console.log("Username:", username);
-    console.log("Password:", password);
+    if (username.length < 5) {
+      setUsernameWarning("Username must be at least 5 characters long.");
+      return;
+    } else {
+      setUsernameWarning(null);
+    }
 
-    // Call the onLogin callback (you can replace this with your actual login logic)
-    onLogin();
+    if (password.length < 8) {
+      setPasswordWarning("Password must be at least 8 characters long.");
+      return;
+    } else {
+      setPasswordWarning(null);
+    }
 
-    // Close the modal
-    onClose();
+    onLogin(username, password);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   return (
@@ -52,18 +67,24 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
               </BookInfoDetail>
             </BookInfo>
           )}
-          <InputLabel>Username:</InputLabel>
-          <Input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <InputLabel>Password:</InputLabel>
-          <Input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <InputLabel>
+            Username (min 5 characters):
+            <Input
+              type="text"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </InputLabel>
+          {usernameWarning && <Warning>{usernameWarning}</Warning>}
+          <InputLabel>
+            Password (min 8 characters):
+            <Input
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </InputLabel>
+          {passwordWarning && <Warning>{passwordWarning}</Warning>}
         </ModalBody>
         <ModalFooter>
           <LoginButton onClick={handleLogin}>Login</LoginButton>
@@ -72,6 +93,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
     </ModalOverlay>
   );
 };
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -127,14 +149,16 @@ const BookInfoDetail = styled.p`
 
 const InputLabel = styled.label`
   display: block;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
   color: #555;
+  margin-top: 16px;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 0px;
+
   border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
@@ -161,4 +185,16 @@ const LoginButton = styled.button`
     background-color: #2980b9;
   }
 `;
+
+const Warning = styled.span`
+  color: #e74c3c;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  display: block;
+  padding: 8px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+`;
+
 export default AuthenticationModal;

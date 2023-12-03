@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import AuthenticationModal from "./LoginModal";
+import BorrowConfirmationModal from "./ConfirmationStatusModal";
 
 interface Book {
   id: string;
@@ -27,6 +28,9 @@ export default function EachCategoryPage() {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [showAuthenticationModal, setShowAuthenticationModal] = useState(false);
 
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [borrowSuccess, setBorrowSuccess] = useState(false);
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
@@ -40,10 +44,41 @@ export default function EachCategoryPage() {
     setShowAuthenticationModal(false);
   };
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    // For simplicity, let's just alert a successful login
-    alert("Login successful!");
+  const handleConfirmationModalClose = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const apiUrl = "https://656ac10ddac3630cf72744fc.mockapi.io/Categories/users";
+
+  const handleLogin = async (username: String, password: String) => {
+    await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userName: username,
+        Password: password,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // handle error
+        throw new Error("Network response was not ok");
+      })
+      .then((user) => {
+        console.log("New user:", user);
+        alert("Login successful!");
+        setBorrowSuccess(true);
+        setShowConfirmationModal(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Login unSuccessful!");
+        setBorrowSuccess(false);
+        setShowConfirmationModal(true);
+      });
+
     // Close the modal after successful login
     handleCloseModal();
   };
@@ -53,30 +88,36 @@ export default function EachCategoryPage() {
       <CategoryTitle>{state.category.name} Books</CategoryTitle>
       <BooksList>
         {visibleBooks.map((book: Book) => (
-          <div key={book.id}>  
-           {selectedBook && showAuthenticationModal && (
+          <div key={book.id}>
+            {selectedBook && showAuthenticationModal && (
               <AuthenticationModal
                 onClose={handleCloseModal}
-                onLogin={handleLogin}
+                onLogin={(username: string, password: string) =>
+                  handleLogin(username, password)
+                }
                 selectedBookInfo={{
                   title: selectedBook.title,
                   author: selectedBook.author,
                   year: selectedBook.year,
-                  id: selectedBook.id
+                  id: selectedBook.id,
                 }}
               />
             )}
-              <BookItem key={book.id}>
-            <BookTitle>{book.title}</BookTitle>
-            <BookAuthor>{book.author}</BookAuthor>
-            <BookYear>{book.year}</BookYear>
-            <SelectButton onClick={() => handleBookSelection(book)}>
-              Select This Book
-            </SelectButton>
-          </BookItem>
-          
+            {showConfirmationModal && (
+              <BorrowConfirmationModal
+                onClose={handleConfirmationModalClose}
+                success={borrowSuccess}
+              />
+            )}
+            <BookItem key={book.id}>
+              <BookTitle>{book.title}</BookTitle>
+              <BookAuthor>{book.author}</BookAuthor>
+              <BookYear>{book.year}</BookYear>
+              <SelectButton onClick={() => handleBookSelection(book)}>
+                Select This Book
+              </SelectButton>
+            </BookItem>
           </div>
-        
         ))}
       </BooksList>
 
