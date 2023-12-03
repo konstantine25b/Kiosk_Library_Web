@@ -40,10 +40,10 @@ Front-end: React, TypeScript, React Router, React Query, Emotion (for styling).
 Back-end: mockapi.io (Mocking).
 
 # Pages
-1. Homepage
+# 1. Homepage
 The landing page where users are greeted with two options: "Borrow a Book" and "Return a Book." This serves as the starting point for users, allowing them to choose their desired action.
 
-2. Borrow a Book Page
+# 2. Borrow a Book Page
 When users choose the "Borrow a Book" option from the navigation bar or the homepage, they are seamlessly navigated (thanks to React Router DOM) to the "Borrow a Book" page. This dedicated page leverages React Query to fetch book categories dynamically from the database.
 
 2.1 . Each Category Books Page
@@ -56,7 +56,7 @@ The "Sign Up Modal" serves as the gateway for users to create accounts or log in
 The "Success Modal" and "Unsuccessful Modal" play a crucial role in providing immediate feedback to users after attempting to create an account or log in on the "Sign Up Modal" page. These modals serve as confirmation messages, notifying users of the outcome of their authentication attempt.
 
 
-3.  Return Book Page
+# 3.  Return Book Page
 The "Return Book Page" serves as a convenient platform for users to return borrowed books. Accessible from both the homepage and the navigation bar, this page features a simple form where users can input the book ID of the item they wish to return.
 
 Upon submitting the book ID, the application utilizes the React Query library to fetch all books from the database, enabling real-time validation of the entered book ID. To ensure the security of book return transactions, a login modal promptly appears, requiring users to authenticate their identity.
