@@ -11,8 +11,9 @@ const BorrowConfirmationModal: React.FC<BorrowConfirmationModalProps> = ({
   onClose,
   success,
 }) => {
-  const context = useContext(UserContext);
-  const selectedBookInfo = context?.book;
+ // Access UserContext to get selected book information
+ const context = useContext(UserContext);
+ const selectedBookInfo = context?.book;
 
   return (
     <ModalOverlay>

@@ -18,23 +18,31 @@ interface Category {
 interface ReturnBookProps {}
 
 const ReturnBook: React.FC<ReturnBookProps> = () => {
+  // State for storing the book ID entered by the user
   const [bookId, setBookId] = useState<string>("");
+
+  // State to manage the visibility of the login modal
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
+  // State to manage the visibility of the return confirmation modal
   const [showReturnConfirmationModal, setShowReturnConfirmationModal] =
     useState(false);
+
+  // State to store data for the return confirmation modal
   const [returnConfirmationModalData, setReturnConfirmationModalData] =
     useState({
       success: false,
       userName: "",
-      bookData: null,
+      bookData: null as Book | null,
       errorMessage: "",
     });
 
+  // Event handler for changes in the book ID input field
   const handleBookIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookId(e.target.value);
   };
 
+  // Event handler for form submission
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // Add logic to handle the book ID submission
@@ -44,14 +52,17 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
     setShowLoginModal(true);
   };
 
+  // Event handler to close the login modal
   const handleCloseLoginModal = () => {
     // Close the login modal
     setShowLoginModal(false);
   };
 
+  // API endpoint for fetching book categories
   const BOOK_CATEGORIES_API =
     "https://656ac10ddac3630cf72744fc.mockapi.io/Categories/Categories";
 
+  // Function to fetch book categories from the API
   const fetchCategories = async () => {
     const response = await fetch(BOOK_CATEGORIES_API);
     if (!response.ok) {
@@ -61,11 +72,14 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
     const data = await response.json();
     return data;
   };
+
+  // Event handler to close the return confirmation modal
   const handleCloseReturnConfirmationModal = () => {
     // Close the confirmation modal
     setShowReturnConfirmationModal(false);
   };
 
+  // Event handler for login logic
   const handleLogin = async (username: string, password: string) => {
     console.log("Login with:", username, password);
     console.log(bookId);
@@ -77,7 +91,7 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
 
       // Check if the book ID is valid
       const matchingBook = categories.reduce(
-        (foundBook: Book, category: Category) => {
+        (foundBook: Book | null, category: Category) => {
           if (!foundBook) {
             const book = category.books.find((book) => book.id === bookId);
             return book ? { category, book } : null;
@@ -92,6 +106,7 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
         console.log("Valid book ID. Proceeding with login...");
         console.log(matchingBook);
 
+        // Set data for the return confirmation modal
         setReturnConfirmationModalData({
           success: true,
           userName: username, // Set the username
@@ -118,6 +133,8 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
         errorMessage: "Error fetching book categories", // Set error message
       });
     }
+
+    // Show the return confirmation modal
     setShowReturnConfirmationModal(true);
   };
 

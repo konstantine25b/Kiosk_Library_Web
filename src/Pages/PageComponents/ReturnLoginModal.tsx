@@ -10,12 +10,18 @@ const ReturnLoginModal: React.FC<ReturnLoginModalProps> = ({
   onClose,
   onLogin,
 }) => {
+  // State for storing the entered username
   const [username, setUsername] = useState("");
+
+  // State for storing the entered password
   const [password, setPassword] = useState("");
+
+  // State for storing the list of users fetched from the API
   const [users, setUsers] = useState<
     Array<{ userName: string; Password: string }>
   >([]);
 
+  // Function to fetch user data from the API
   const fetchCategories = async () => {
     try {
       const response = await fetch(
@@ -33,18 +39,22 @@ const ReturnLoginModal: React.FC<ReturnLoginModalProps> = ({
     }
   };
 
+  // useEffect hook to fetch user data when the component mounts
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  // Event handler for changes in the username input field
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
+  // Event handler for changes in the password input field
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
+  // Event handler for login logic
   const handleLogin = () => {
     // Check if the submitted username and password match any user
     const matchedUser = users.find(
