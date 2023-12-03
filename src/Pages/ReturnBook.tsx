@@ -1,10 +1,12 @@
 import React, { useState, FormEvent } from "react";
 import styled from "@emotion/styled";
+import ReturnLoginModal from "./PageComponents/ReturnLoginModal";
 
 interface ReturnBookProps {}
 
 const ReturnBook: React.FC<ReturnBookProps> = () => {
   const [bookId, setBookId] = useState<string>("");
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
   const handleBookIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookId(e.target.value);
@@ -14,6 +16,20 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
     e.preventDefault();
     // Add logic to handle the book ID submission
     console.log("Book ID submitted:", bookId);
+
+    // Show the login modal after form submission
+    setShowLoginModal(true);
+  };
+
+  const handleCloseLoginModal = () => {
+    // Close the login modal
+    setShowLoginModal(false);
+  };
+
+  const handleLogin = (username: string, password: string) => {
+    console.log("Login with:", username, password);
+    console.log(bookId);
+    setShowLoginModal(false);
   };
 
   return (
@@ -29,6 +45,12 @@ const ReturnBook: React.FC<ReturnBookProps> = () => {
         />
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
+      {showLoginModal && (
+        <ReturnLoginModal
+          onClose={handleCloseLoginModal}
+          onLogin={(username, password) => handleLogin(username, password)}
+        />
+      )}
     </Container>
   );
 };
@@ -37,7 +59,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  outline: none;
   height: 100vh;
   background-color: #f0f0f0;
 `;
@@ -45,12 +67,14 @@ const Container = styled.div`
 const Title = styled.h2`
   font-size: 2rem;
   color: #3498db;
+  margin-top: 100px;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Form = styled.form`
   display: flex;
+
   flex-direction: column;
   width: 300px;
   padding: 20px;

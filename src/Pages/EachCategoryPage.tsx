@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
-import AuthenticationModal from "./PageComponents/LoginModal";
+import AuthenticationModal from "./PageComponents/BorrowSignupModal";
 import BorrowConfirmationModal from "./PageComponents/ConfirmationStatusModal";
 import { UserContext } from "../App";
 

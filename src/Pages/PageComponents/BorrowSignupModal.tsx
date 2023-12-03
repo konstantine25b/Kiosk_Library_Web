@@ -84,7 +84,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
           {passwordWarning && <Warning>{passwordWarning}</Warning>}
         </ModalBody>
         <ModalFooter>
-          <LoginButton onClick={handleLogin}>Login</LoginButton>
+          <LoginButton onClick={handleLogin}>Sign Up</LoginButton>
         </ModalFooter>
       </Modal>
     </ModalOverlay>
