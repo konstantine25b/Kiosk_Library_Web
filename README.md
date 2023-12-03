@@ -29,6 +29,8 @@ In case of an error or invalid book ID, appropriate error messages are displayed
 
 Clone the repository: git clone https://github.com/konstantine25b/Kiosk_Library_Web.git
 
+Navigate to the project directory: cd Kiosk_Library_Web
+
 Install dependencies: npm install
 
 Run the application: npm start
