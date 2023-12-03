@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
+import { UserContext } from "../App";
 
 interface BorrowConfirmationModalProps {
   onClose: () => void;
@@ -10,6 +11,9 @@ const BorrowConfirmationModal: React.FC<BorrowConfirmationModalProps> = ({
   onClose,
   success,
 }) => {
+  const context = useContext(UserContext);
+  const selectedBookInfo = context?.book;
+
   return (
     <ModalOverlay>
       <Modal>
@@ -19,9 +23,22 @@ const BorrowConfirmationModal: React.FC<BorrowConfirmationModalProps> = ({
         </ModalHeader>
         <ModalBody>
           {success ? (
-            <ConfirmationMessage>
-              Book borrowed successfully! 📚
-            </ConfirmationMessage>
+            <>
+              <ConfirmationMessage>
+                Book borrowed successfully! 📚
+              </ConfirmationMessage>
+              {selectedBookInfo && (
+                <BookInfo>
+                  <BookInfoTitle>{selectedBookInfo.title}</BookInfoTitle>
+                  <BookInfoDetail>
+                    <strong>Author:</strong> {selectedBookInfo.author}
+                  </BookInfoDetail>
+                  <BookInfoDetail>
+                    <strong>Year:</strong> {selectedBookInfo.year}
+                  </BookInfoDetail>
+                </BookInfo>
+              )}
+            </>
           ) : (
             <ErrorMessage>
               There was an error borrowing the book. Please try again.
@@ -80,6 +97,24 @@ const ErrorMessage = styled.p`
   color: #e74c3c;
   font-size: 1rem;
   margin-bottom: 16px;
+`;
+
+const BookInfo = styled.div`
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+`;
+
+const BookInfoTitle = styled.h3`
+  margin: 0;
+  font-size: 1.2rem;
+  color: #3498db;
+`;
+
+const BookInfoDetail = styled.p`
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
 `;
 
 export default BorrowConfirmationModal;

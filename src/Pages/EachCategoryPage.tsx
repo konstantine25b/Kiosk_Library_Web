@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import AuthenticationModal from "./LoginModal";
 import BorrowConfirmationModal from "./ConfirmationStatusModal";
+import { UserContext } from "../App";
 
 interface Book {
   id: string;
@@ -31,12 +32,15 @@ export default function EachCategoryPage() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [borrowSuccess, setBorrowSuccess] = useState(false);
 
+  const context = useContext(UserContext)
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
   const handleBookSelection = (book: Book) => {
     setSelectedBook(book);
+    context?.setBook(book)
     setShowAuthenticationModal(true);
   };
 
@@ -95,12 +99,7 @@ export default function EachCategoryPage() {
                 onLogin={(username: string, password: string) =>
                   handleLogin(username, password)
                 }
-                selectedBookInfo={{
-                  title: selectedBook.title,
-                  author: selectedBook.author,
-                  year: selectedBook.year,
-                  id: selectedBook.id,
-                }}
+               
               />
             )}
             {showConfirmationModal && (

@@ -1,26 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
+import { UserContext } from "../App";
 
 interface AuthenticationModalProps {
   onClose: () => void;
   onLogin: (username: string, password: string) => void;
-  selectedBookInfo: {
-    title: string;
-    author: string;
-    year: number;
-    id: string;
-  } | null;
 }
 
 const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
   onClose,
   onLogin,
-  selectedBookInfo,
 }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameWarning, setUsernameWarning] = useState<string | null>(null);
   const [passwordWarning, setPasswordWarning] = useState<string | null>(null);
+
+  const context = useContext(UserContext);
+  const selectedBookInfo = context?.book;
 
   const handleLogin = () => {
     if (username.length < 5) {
