@@ -2,24 +2,33 @@ import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { UserContext } from "../../App";
 
+// Define the props for the AuthenticationModal component
 interface AuthenticationModalProps {
-  onClose: () => void;
-  onLogin: (username: string, password: string) => void;
+  onClose: () => void; // Function to close the modal
+  onLogin: (username: string, password: string) => void; // Function to handle login
 }
 
+// Define the AuthenticationModal component as a functional component
 const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
   onClose,
   onLogin,
 }) => {
+  // State to manage username input value
   const [username, setUsername] = useState("");
+  // State to manage password input value
   const [password, setPassword] = useState("");
+  // State to manage username validation warning
   const [usernameWarning, setUsernameWarning] = useState<string | null>(null);
+  // State to manage password validation warning
   const [passwordWarning, setPasswordWarning] = useState<string | null>(null);
 
+  // Access UserContext to get selected book information
   const context = useContext(UserContext);
   const selectedBookInfo = context?.book;
 
+  // Function to handle the login process
   const handleLogin = () => {
+    // Validate the length of the username
     if (username.length < 5) {
       setUsernameWarning("Username must be at least 5 characters long.");
       return;
@@ -27,6 +36,7 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
       setUsernameWarning(null);
     }
 
+    // Validate the length of the password
     if (password.length < 8) {
       setPasswordWarning("Password must be at least 8 characters long.");
       return;
@@ -34,17 +44,19 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
       setPasswordWarning(null);
     }
 
+    // Call the onLogin function with username and password
     onLogin(username, password);
   };
 
+  // Event handler for username input change
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
+  // Event handler for password input change
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-
   return (
     <ModalOverlay>
       <Modal>

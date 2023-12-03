@@ -1,12 +1,10 @@
 import React, { createContext, useState } from "react";
-
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-
 import "./App.css";
 import HomePage from "./Pages/HomePage";
 import BookCategories from "./Pages/BookCategories";
@@ -21,20 +19,16 @@ interface Book {
   year: number;
 }
 
-// this is a book user selects in borrow books section
+// Define the type for the BookInfo context
 type BookInfo = {
   book: Book | null;
-  setBook: React.Dispatch<React.SetStateAction<Book>>;
+  setBook: React.Dispatch<React.SetStateAction<Book | null>>;
 };
 
-export const UserContext = createContext<
-  | {
-      book: Book | null;
-      setBook: React.Dispatch<React.SetStateAction<Book | null>>;
-    }
-  | undefined
->(undefined);
+// Create a context for user-related data
+export const UserContext = createContext<BookInfo | undefined>(undefined);
 
+// Create a router instance for routing
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -47,14 +41,13 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  
   const [book, setBook] = useState<Book | null>(null);
+
   return (
-    <UserContext.Provider
-      value={{
-        book,
-        setBook,
-      }}
-    >
+    // Provide UserContext with the book and setBook values
+    <UserContext.Provider value={{ book, setBook }}>
+      {/* Use RouterProvider to enable routing in your application */}
       <RouterProvider router={router} />
     </UserContext.Provider>
   );

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation } from "react-router-dom";
 import AuthenticationModal from "./PageComponents/BorrowSignupModal";
-import BorrowConfirmationModal from "./PageComponents/ConfirmationStatusModal";
+import BorrowConfirmationModal from "./PageComponents/BorrowConfirmationModal";
 import { UserContext } from "../App";
 
 interface Book {
@@ -15,46 +15,60 @@ interface Book {
 export default function EachCategoryPage() {
   const { state } = useLocation();
 
+  // Constant representing the number of books to display per page.
   const ITEMS_PER_PAGE = 4;
+
+  // Array containing all the books in the current category from the location state.
   const allBooks: Book[] = state.category.books;
 
+  // State variable representing the current page number.
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Computed values for slicing the array of all books to display only those for the current page.
   const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIdx = startIdx + ITEMS_PER_PAGE;
   const visibleBooks = allBooks.slice(startIdx, endIdx);
 
+  // Computed value representing the total number of pages needed to display all books.
   const totalPages = Math.ceil(allBooks.length / ITEMS_PER_PAGE);
 
+  // State variables for managing the selected book, authentication modal visibility,
+  // confirmation modal visibility, and the success status of borrowing.
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [showAuthenticationModal, setShowAuthenticationModal] = useState(false);
-
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [borrowSuccess, setBorrowSuccess] = useState(false);
 
   const context = useContext(UserContext);
 
+  // Function to handle a change in the current page.
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
+  // Function to handle the selection of a book.
   const handleBookSelection = (book: Book) => {
     setSelectedBook(book);
     context?.setBook(book);
     setShowAuthenticationModal(true);
   };
 
+  // Function to handle the closing of the authentication modal.
   const handleCloseModal = () => {
     setShowAuthenticationModal(false);
   };
 
+  // Function to handle the closing of the confirmation modal.
   const handleConfirmationModalClose = () => {
     setShowConfirmationModal(false);
   };
 
+  // API URL for user authentication.
   const apiUrl = "https://656ac10ddac3630cf72744fc.mockapi.io/Categories/users";
 
+  // Function to handle user login.
   const handleLogin = async (username: String, password: String) => {
+    // Perform a POST request to the authentication API.
     await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,23 +81,23 @@ export default function EachCategoryPage() {
         if (res.ok) {
           return res.json();
         }
-        // handle error
+        // Handle error if the network response is not ok.
         throw new Error("Network response was not ok");
       })
       .then((user) => {
         console.log("New user:", user);
-        alert("Login successful!");
+        alert("Sign Up successful!");
         setBorrowSuccess(true);
         setShowConfirmationModal(true);
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("Login unSuccessful!");
+        alert("Sign Up unsuccessful!");
         setBorrowSuccess(false);
         setShowConfirmationModal(true);
       });
 
-    // Close the modal after successful login
+    // Close the modal after a successful login.
     handleCloseModal();
   };
 
