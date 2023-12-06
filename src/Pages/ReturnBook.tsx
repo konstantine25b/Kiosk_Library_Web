@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from "react";
 import styled from "@emotion/styled";
 import ReturnLoginModal from "./PageComponents/ReturnLoginModal";
 import ReturnConfirmationModal from "./PageComponents/ReturnConfirmationModal";
+import colors from "./styles/colors";
 
 interface Book {
   id: string;
@@ -176,12 +177,12 @@ const Container = styled.div`
   align-items: center;
   outline: none;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: ${colors.backgroundOverlay}; // Update to your desired color
 `;
 
 const Title = styled.h2`
   font-size: 2rem;
-  color: #3498db;
+  color: ${colors.bookTitle};
   margin-top: 100px;
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -189,24 +190,23 @@ const Title = styled.h2`
 
 const Form = styled.form`
   display: flex;
-
   flex-direction: column;
   width: 300px;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background-color: ${colors.modalBackground};
+  box-shadow: ${colors.boxShadow};
   border-radius: 8px;
 `;
 
 const InputLabel = styled.label`
   margin-bottom: 8px;
-  color: #555;
+  color: ${colors.bookInfo};
 `;
 
 const Input = styled.input`
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.borderColor};
   border-radius: 6px;
   outline: none;
   font-size: 1rem;
@@ -214,7 +214,7 @@ const Input = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1rem;
   padding: 12px;
@@ -227,5 +227,4 @@ const SubmitButton = styled.button`
     background-color: #2980b9;
   }
 `;
-
 export default ReturnBook;

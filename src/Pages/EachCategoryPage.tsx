@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import AuthenticationModal from "./PageComponents/BorrowSignupModal";
 import BorrowConfirmationModal from "./PageComponents/BorrowConfirmationModal";
 import { UserContext } from "../App";
+import colors from "./styles/colors";
 
 interface Book {
   id: string;
@@ -122,9 +123,11 @@ export default function EachCategoryPage() {
               />
             )}
             <BookItem key={book.id}>
+            
               <BookTitle>{book.title}</BookTitle>
               <BookAuthor>{book.author}</BookAuthor>
               <BookYear>{book.year}</BookYear>
+              <BookAuthor>Book ID: {book.id}</BookAuthor>
               <SelectButton onClick={() => handleBookSelection(book)}>
                 Select This Book
               </SelectButton>
@@ -153,13 +156,13 @@ export default function EachCategoryPage() {
     </BooksContainer>
   );
 }
-
 const BooksContainer = styled.div`
   padding: 20px;
 `;
+
 const CategoryTitle = styled.h2`
   font-size: 2rem;
-  color: #3498db;
+  color: ${colors.bookTitle};
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -171,7 +174,7 @@ const BooksList = styled.ul`
 `;
 
 const BookItem = styled.li`
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.borderColor};
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;
@@ -192,17 +195,17 @@ const BookTitle = styled.h3`
 const BookAuthor = styled.p`
   margin: 5px 0 0;
   font-size: 1rem;
-  color: #555;
+  color: ${colors.bookInfo};
 `;
 
 const BookYear = styled.p`
   margin: 5px 0 0;
   font-size: 1rem;
-  color: #888;
+  color: #888; 
 `;
 
 const SelectButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1.2rem;
   padding: 8px 16px;
@@ -227,7 +230,7 @@ const PaginationContainer = styled.div`
 `;
 
 const PaginationButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1rem;
   padding: 10px;

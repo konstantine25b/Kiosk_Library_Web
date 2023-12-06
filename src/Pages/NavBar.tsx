@@ -2,9 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { HomeIcon } from "@heroicons/react/24/solid";
+import colors from "./styles/colors";
 
 const NavbarContainer = styled.nav`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   padding: 10px;
   display: flex;
@@ -29,7 +30,7 @@ const Icon = styled.span`
   transition: color 0.3s ease;
 
   &:hover {
-    color: #f39c12; // Icon color on hover
+    color: ${colors.confirmationText}; // Icon color on hover
   }
 `;
 

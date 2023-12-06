@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import colors from "./styles/colors";
 
 // Interface representing the shape of a book category
 interface Category {
@@ -37,10 +38,11 @@ export default function BookCategories() {
   const navigate = useNavigate();
 
   // Use React Query to fetch book categories
-  const { data: categories, isLoading, isError } = useQuery<Category[]>(
-    "bookCategories",
-    fetchCategories
-  );
+  const {
+    data: categories,
+    isLoading,
+    isError,
+  } = useQuery<Category[]>("bookCategories", fetchCategories);
 
   // State to manage the current page
   const [currentPage, setCurrentPage] = useState(1);
@@ -139,7 +141,7 @@ const CategoryItem = styled.li`
   margin: 10px;
   margin-left: 50px;
   margin-right: 50px;
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   border-radius: 8px;
   cursor: pointer;
@@ -161,7 +163,7 @@ const PaginationContainer = styled.div`
 `;
 
 const PaginationButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1rem;
   padding: 10px;
@@ -189,18 +191,18 @@ const PageIndicator = styled.div`
 
 const LoadingContainer = styled.div`
   font-size: 1.2rem;
-  color: #3498db;
+  color: ${colors.bookTitle};
   margin-top: 20px;
 `;
 
 const ErrorContainer = styled.div`
   font-size: 1.2rem;
-  color: #e74c3c;
+  color: ${colors.errorText};
   margin-top: 20px;
 `;
 
 const CategoriesHeading = styled.h2`
   font-size: 1.8rem;
   margin-bottom: 15px;
-  color: #3498db;
+  color: ${colors.bookTitle};
 `;

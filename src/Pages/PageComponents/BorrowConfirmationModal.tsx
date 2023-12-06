@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "@emotion/styled";
 import { UserContext } from "../../App";
+import colors from "../styles/colors";
 
 interface BorrowConfirmationModalProps {
   onClose: () => void;
@@ -11,9 +12,9 @@ const BorrowConfirmationModal: React.FC<BorrowConfirmationModalProps> = ({
   onClose,
   success,
 }) => {
- // Access UserContext to get selected book information
- const context = useContext(UserContext);
- const selectedBookInfo = context?.book;
+  // Access UserContext to get selected book information
+  const context = useContext(UserContext);
+  const selectedBookInfo = context?.book;
 
   return (
     <ModalOverlay>
@@ -37,6 +38,9 @@ const BorrowConfirmationModal: React.FC<BorrowConfirmationModalProps> = ({
                   <BookInfoDetail>
                     <strong>Year:</strong> {selectedBookInfo.year}
                   </BookInfoDetail>
+                  <BookInfoDetail>
+                    <strong>Book ID:</strong> {selectedBookInfo.id}
+                  </BookInfoDetail>
                 </BookInfo>
               )}
             </>
@@ -57,7 +61,7 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${colors.backgroundOverlay};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,11 +69,11 @@ const ModalOverlay = styled.div`
 `;
 
 const Modal = styled.div`
-  background: #fff;
+  background: ${colors.modalBackground};
   padding: 30px;
   border-radius: 12px;
   width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: ${colors.boxShadow};
 `;
 
 const ModalHeader = styled.div`
@@ -81,6 +85,7 @@ const ModalHeader = styled.div`
 
 const CloseButton = styled.div`
   font-size: 1.5rem;
+  color: ${colors.closeIcon};
   cursor: pointer;
 `;
 
@@ -89,33 +94,33 @@ const ModalBody = styled.div`
 `;
 
 const ConfirmationMessage = styled.p`
-  color: #2ecc71;
+  color: ${colors.confirmationText};
   font-size: 1rem;
   margin-bottom: 16px;
 `;
 
 const ErrorMessage = styled.p`
-  color: #e74c3c;
+  color: ${colors.errorText};
   font-size: 1rem;
   margin-bottom: 16px;
 `;
 
 const BookInfo = styled.div`
   margin-top: 20px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid ${colors.borderColor};
   padding-top: 20px;
 `;
 
 const BookInfoTitle = styled.h3`
   margin: 0;
   font-size: 1.2rem;
-  color: #3498db;
+  color: ${colors.bookTitle};
 `;
 
 const BookInfoDetail = styled.p`
   margin: 5px 0;
   font-size: 1rem;
-  color: #555;
+  color: ${colors.bookInfo};
 `;
 
 export default BorrowConfirmationModal;

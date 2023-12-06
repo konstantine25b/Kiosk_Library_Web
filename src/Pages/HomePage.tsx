@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { BookOpenIcon, BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+import colors from "./styles/colors";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const Subtitle = styled.p`
 `;
 
 const ServiceButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1.3rem;
   padding: 12px 25px;

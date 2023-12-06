@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 import { UserContext } from "../../App";
+import colors from "../styles/colors";
 
 // Define the props for the AuthenticationModal component
 interface AuthenticationModalProps {
@@ -74,6 +75,9 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
               <BookInfoDetail>
                 <strong>Year:</strong> {selectedBookInfo.year}
               </BookInfoDetail>
+              <BookInfoDetail>
+                <strong>Book ID:</strong> {selectedBookInfo.id}
+              </BookInfoDetail>
             </BookInfo>
           )}
           <InputLabel>
@@ -102,14 +106,13 @@ const AuthenticationModal: React.FC<AuthenticationModalProps> = ({
     </ModalOverlay>
   );
 };
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${colors.backgroundOverlay};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,11 +120,11 @@ const ModalOverlay = styled.div`
 `;
 
 const Modal = styled.div`
-  background: #fff;
+  background: ${colors.modalBackground};
   padding: 30px;
   border-radius: 12px;
   width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: ${colors.boxShadow};
 `;
 
 const ModalHeader = styled.div`
@@ -133,33 +136,32 @@ const ModalHeader = styled.div`
 
 const CloseButton = styled.div`
   font-size: 1.5rem;
+  color: ${colors.closeIcon};
   cursor: pointer;
 `;
 
 const ModalBody = styled.div`
   margin-bottom: 20px;
 `;
-
 const BookInfo = styled.div`
   margin-bottom: 20px;
 `;
-
 const BookInfoTitle = styled.h3`
   margin: 0;
   font-size: 1.2rem;
-  color: #3498db;
+  color: ${colors.bookTitle};
 `;
 
 const BookInfoDetail = styled.p`
   margin: 5px 0;
   font-size: 1rem;
-  color: #555;
+  color: ${colors.bookInfo};
 `;
 
 const InputLabel = styled.label`
   display: block;
   padding-bottom: 8px;
-  color: #555;
+  color: ${colors.bookInfo}; // Use the color from the colors file
   margin-top: 16px;
 `;
 
@@ -168,7 +170,7 @@ const Input = styled.input`
   padding: 12px;
   margin-bottom: 0px;
 
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.borderColor}; // Use the color from the colors file
   border-radius: 6px;
   outline: none;
   font-size: 1rem;
@@ -196,7 +198,7 @@ const LoginButton = styled.button`
 `;
 
 const Warning = styled.span`
-  color: #e74c3c;
+  color: ${colors.errorText};
   font-size: 0.8rem;
   margin-bottom: 8px;
   display: block;
@@ -205,5 +207,4 @@ const Warning = styled.span`
   border: 1px solid #f5c6cb;
   border-radius: 4px;
 `;
-
 export default AuthenticationModal;

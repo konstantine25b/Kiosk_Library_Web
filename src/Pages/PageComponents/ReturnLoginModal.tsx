@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
+import colors from "../styles/colors";
 
 interface ReturnLoginModalProps {
   onClose: () => void;
@@ -106,7 +107,7 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${colors.backgroundOverlay};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,11 +115,11 @@ const ModalOverlay = styled.div`
 `;
 
 const Modal = styled.div`
-  background: #fff;
+  background: ${colors.modalBackground};
   padding: 30px;
   border-radius: 12px;
   width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: ${colors.boxShadow};
 `;
 
 const ModalHeader = styled.div`
@@ -130,6 +131,7 @@ const ModalHeader = styled.div`
 
 const CloseButton = styled.div`
   font-size: 1.5rem;
+  color: ${colors.closeIcon};
   cursor: pointer;
 `;
 
@@ -140,14 +142,14 @@ const ModalBody = styled.div`
 const InputLabel = styled.label`
   display: block;
   margin-bottom: 8px;
-  color: #555;
+  color: ${colors.bookInfo};
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.borderColor};
   border-radius: 6px;
   outline: none;
   font-size: 1rem;
@@ -155,7 +157,7 @@ const Input = styled.input`
 `;
 
 const LoginButton = styled.button`
-  background-color: #3498db;
+  background-color: ${colors.bookTitle};
   color: #fff;
   font-size: 1.2rem;
   padding: 12px 20px;
