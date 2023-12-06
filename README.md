@@ -56,7 +56,7 @@ Upon selecting a specific book category from the "Borrow a Book" page, users are
 <img width="1440" alt="Screenshot 2023-12-03 at 22 41 09" src="https://github.com/konstantine25b/Kiosk_Library_Web/assets/102245292/2431b2cb-2a3e-4482-8154-8e7b22c556e0">
 
 2.2 . Sign Up Modal
-The "Sign Up Modal" serves as the gateway for users to create accounts or log in and proceed with the book borrowing process. Upon selecting a book for borrowing, users encounter this modal, which demands special username and password requirements for a secure authentication process. User Context Hook is used to save selected book data for further use.
+The "Sign Up Modal" serves as the gateway for users to create accounts and proceed with the book borrowing process. Upon selecting a book for borrowing, users encounter this modal, which demands special username and password requirements for a secure authentication process. User Context Hook is used to save selected book data for further use.
 <img width="1440" alt="Screenshot 2023-12-03 at 22 41 35" src="https://github.com/konstantine25b/Kiosk_Library_Web/assets/102245292/1c412d0a-64f2-4520-93b4-95168ba59b59">
 
 2.3 . Success and Unsuccessful Modals
